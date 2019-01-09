@@ -1,0 +1,43 @@
+function onRun(context) {
+
+	var document = context.document;
+	var layers = [[document currentPage]children];
+	var page = [document currentPage];
+    var resultMessage = "Looks like you're pixel perfect!";
+
+	if (page.deselectAllLayers) {
+	    page.deselectAllLayers();
+	} else {
+	    page.changeSelectionBySelectingLayers_([]);
+	}
+
+	var badLayers = 0;
+
+	for (var i = 0; i < [layers count]; i++) {
+		var layer = layers[i];
+        if(layer instanceof MSArtboardGroup == false) {
+            var x = [[layer frame] x];
+            var y = [[layer frame] y];
+            var w = [[layer frame] width];
+            var h = [[layer frame] height];
+
+            if (Number.isInteger(x/3) != true || Number.isInteger(y/3) != true || Number.isInteger(w/3) != true || Number.isInteger(h/3) != true) {
+                if ([layer name] != "Path") {
+                    selection:[layer select:true byExpandingSelection:true];
+                    badLayers++
+                }
+            }
+        }
+	}
+
+	if (badLayers > 0) {
+		if (badLayers == 1) {
+			document.showMessage("Selected " + layer.name() + " on " + page.name() + ", because it's not fitting the 3px subgrid");
+		} else {
+			document.showMessage("Selected " + badLayers + " imperfect layers on " + page.name() + ", because they won't fit the 3px subgrid");
+		}
+	} else {
+		document.showMessage(resultMessage);
+	}
+
+}
