@@ -1,0 +1,87 @@
+{
+    "name": "Make it tsf.",
+    "description": "Arrange and examine screens based on using the tsf. 6px grid.",
+    "author": "the software fanatics.",
+    "version": 0.1,
+    "identifier": "tsf",
+    "icon": "icon.png",
+    "suppliesData" : true,
+    "compatibleVersion": 3.4,
+    "bundleVersion": 1,
+    "commands": [
+      {
+        "name": "Fix Elements (6px)",
+        "identifier": "tsf-fix-elements-6px",
+        "shortcut": "ctrl cmd 6",
+        "script": "fix_elements_6px.cocoascript"
+      },
+      {
+        "name": "Fix Elements (3px)",
+        "identifier": "tsf-fix-elements-3px",
+        "shortcut": "ctrl cmd 3",
+        "script": "fix_elements_3px.cocoascript"
+      },
+      {
+        "name": "Set Grid + Sub Grid (6px & 3px)",
+        "identifier": "tsf-set-subgrid",
+        "shortcut": "ctrl cmd g",
+        "script": "set_subgrid.cocoascript"
+      },
+      {
+        "name": "Set Grid (6px)",
+        "identifier": "tsf-set-grid",
+        "shortcut": "ctrl shift cmd g",
+        "script": "set_grid.cocoascript"
+      },
+      {
+        "name": "Select Elements (3px)",
+        "identifier": "tsf-select-elements-3px",
+        "shortcut": "ctrl cmd e",
+        "script": "select_elements_3px.cocoascript"
+      },
+      {
+        "name": "Select Elements (6px)",
+        "identifier": "tsf-select-elements-6px",
+        "shortcut": "ctrl shift cmd e",
+        "script": "select_elements_6px.cocoascript"
+      },
+      {
+        "script": "supply_data.cocoascript",
+        "handlers": {
+            "actions": {
+                "Startup": "onStartup",
+                "Shutdown": "onShutdown",
+                "SupplyImageFromFolder": "onSupplyImageFromFolder",
+                "SupplyRandomImageFromFolder": "onSupplyRandomImageFromFolder"
+            }
+        }
+    }
+    ],
+    "menu": {
+
+      "title": "🤘 Make it tsf.",
+      "items": [
+          {
+            "title": "Set Grid",
+            "items": [
+              "tsf-set-subgrid",
+              "tsf-set-grid"
+            ]
+          },
+          {
+            "title": "Select Elements",
+            "items": [
+              "tsf-select-elements-3px",
+              "tsf-select-elements-6px"
+            ]
+          },
+          {
+            "title": "Fix Elements",
+            "items": [
+              "tsf-fix-elements-3px",
+              "tsf-fix-elements-6px"
+            ]
+          }
+        ]
+      }
+}

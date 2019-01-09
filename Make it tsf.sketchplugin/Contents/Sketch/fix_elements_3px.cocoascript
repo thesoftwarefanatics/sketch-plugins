@@ -1,0 +1,71 @@
+var gridSize = 3.0;
+var gridSizeMessage = "3px subgrid";
+
+function fixLayer(layer) {
+	var frame = layer.frame().copy();
+	frame.x = Math.round(frame.x() / gridSize) * gridSize;
+	frame.y = Math.round(frame.y() / gridSize) * gridSize;
+	frame.width = Math.round(frame.width() / gridSize) * gridSize;
+	frame.height = Math.round(frame.height() / gridSize) * gridSize;
+
+	fixed = !layer.frame().isEqual(frame);
+
+	layer.setFrame(frame);
+
+	return fixed;
+}
+
+function fixChildren(layer) {
+	layers = [layer layers];
+	fixedLayers = 0;
+
+	for (var x=0; x < [layers count]; x++){
+		var childLayer = layers[x];
+		fixed = fixLayer(childLayer)
+
+		if (fixed) {
+			fixedLayers++;
+		}
+	}
+
+	return fixedLayers;
+}
+
+function onRun(context) {
+
+	var document = context.document;
+	var selection = context.selection;
+	var layers = [[document currentPage]children];
+	var page = [document currentPage];
+	var resultMessage = "Looks like you're pixel perfect!";
+
+	if(selection.count() == 0) {
+		document.showMessage("Nothing is selected");
+		return;
+	}
+
+	var badLayers = 0;
+	for (var i = 0; i < [selection count]; i++) {
+		var layer = selection[i];
+
+		if(layer instanceof MSArtboardGroup == false) {
+			fixed = fixLayer(layer)
+
+			if (fixed) {
+				badLayers++;
+			}
+		} else {
+			badLayers = fixChildren(layer)
+		}
+	}
+
+	if (badLayers == 1) {
+		resultMessage = "Fixed " + layer.name() + " on " + page.name() + " to the " + gridSizeMessage;
+	}
+
+	if(badLayers > 1) {
+		document.showMessage("Fixed " + badLayers + " imperfect layers on " + page.name() + " to fit the " + gridSizeMessage);
+	} else {
+		document.showMessage(resultMessage);
+	}
+}

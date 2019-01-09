@@ -1,0 +1,21 @@
+var onRun = function(context) {
+
+    var document = context.document;
+    var selection = context.selection;
+    var predicate = NSPredicate.predicateWithFormat("className IN %@", ["MSArtboardGroup"]);
+    var selectedArtboards = selection.filteredArrayUsingPredicate(predicate);
+    var grid = MSSimpleGrid.alloc().init();
+
+    if (selectedArtboards.count() == 0) {
+        document.showMessage("Please select an Artboard.");
+        return;
+    } 
+    
+        grid.setThickGridTimes(0);
+        grid.setGridSize(6);
+        grid.setIsEnabled(true);
+
+        for (var i = 0; i < [selectedArtboards count]; i++) {
+            selectedArtboards[i].setGrid(grid);
+        }
+}
